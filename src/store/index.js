@@ -14,7 +14,7 @@ import warehouse from "./modules/warehouse"
 import inventory from "./modules/inventory"
 import suppliers from "./modules/suppliers"
 import invoices from "./modules/invoices"
-
+import payments from "./modules/payments"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -35,6 +35,7 @@ export default new Vuex.Store({
 		warehouse,
 		inventory,
 		suppliers,
-		invoices
+		invoices,
+		payments
 	}
 });

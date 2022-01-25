@@ -62,6 +62,11 @@
                             Invoices
                         </router-link>
                     </li>
+                    <li>
+                        <router-link class="pl-15" to="/payments" v-bind:class="{'active-link': ($store.state.page.currentPage=='payments')}">
+                            Payments
+                        </router-link>
+                    </li>
                 </v-list-group>
             </v-list>
 

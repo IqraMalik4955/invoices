@@ -449,6 +449,12 @@ ul {
 .vue-tel-input input::placeholder {
     color: #B4CFE0;
 }
+.v-text-fields.select .vs__dropdown-toggle .vs__selected-options input::placeholder,
+.v-input.text-fieldsright .v-input__control .v-input__slot input::placeholder,
+.v-input.text-fieldsright .v-input__control .v-input__slot textarea::placeholder,
+.vue-tel-input input::placeholder {
+    color: #B4CFE0;
+}
 
 .v-text-fields.select.v-multiple .vs__dropdown-toggle .vs__selected-options .vs__selected {
     border-radius: 4px;

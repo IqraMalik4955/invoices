@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import InvoiceDialog from '../components/InvoiceComponents/InvoiceDialog.vue'
 import InvoiceDesktopTable from '../components/Tables/Invoice/InvoiceDesktopTable.vue'
 import InvoiceMobileTable from '../components/Tables/Invoice/InvoiceMobileTable.vue'
@@ -113,41 +112,7 @@ export default {
 		isMobile: false
     }),
     computed: {
-        ...mapGetters({
-            getSuppliers: 'suppliers/getSuppliers',
-            getUser: 'getUser',
-            getSuppliersLoading: 'suppliers/getSuppliersLoading'
-        }),
-        formTitle() {
-            return this.editedIndex === -1 ? "Add Supplier" : "Edit Supplier";
-        },
-        suppliers() {
-            let data = []
 
-            if (typeof this.getSuppliers !== 'undefined' && this.getSuppliers !== null) {
-                if (typeof this.getSuppliers.data !== 'undefined' && this.getSuppliers.data.length !== 'undefined') {
-                    data = this.getSuppliers.data
-
-                    data.map((value) => {
-                        if (value.address !== null) {
-                            value.address = value.address.replace(/,(?=[^\s])/g, ", ")
-                        } else {
-                            value.address = ''
-                        }
-
-                        if(value.phone == null) {
-                            value.phone = ''
-                        }
-
-                        if(value.emails == null) {
-                            value.emails = ''
-                        }
-                    })
-                }
-            }
-
-            return data
-        }
     },
     watch: {
         dialog(val) {
@@ -162,9 +127,6 @@ export default {
         dialogDelete(){
             this.dialogDelete=true;
         },
-        ...mapActions({
-            fetchSuppliers: 'suppliers/fetchSuppliers'
-        }),
         addSupplier() {
             this.dialog = true;
         },
@@ -211,13 +173,6 @@ export default {
                 this.editedIndex = -1;
             });
         },
-		onResize() {
-            if (window.innerWidth < 769) {
-                this.isMobile = true
-            } else {
-                this.isMobile = false
-            }
-        },
         setToDefault() {
             this.editedItem = this.defaultItem
             this.close()
@@ -226,10 +181,8 @@ export default {
     },
     async mounted() {
         //set current page
-        this.$store.dispatch("page/setPage", "invoices");
-        await this.fetchSuppliers()        
+        this.$store.dispatch("page/setPage", "invoices");       
     },
-    updated() {}
 };
 </script>
 
