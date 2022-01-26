@@ -50,10 +50,9 @@
                                         <label class="text-item-label">Invoice No.</label>
                                         <v-text-field
                                             flat solo
-                                            placeholder="" 
                                             value="712119-129"
                                             outlined 
-                                            class="text-fields"
+                                            class="text-fields cvalue"
                                             :rules="rules"
                                             hide-details="auto">
                                         </v-text-field>
@@ -68,7 +67,7 @@
                                             :items="items"
                                             outlined
                                             :error-messages="errors"
-                                            label="Select Customer"
+                                            placeholder="Select Customer"
                                             data-vv-name="select"
                                             required
                                         ></v-select>
@@ -76,54 +75,15 @@
 
                                     <v-col cols="12" sm="12" md="12">
                                         <label class="text-item-label">Customer Email</label>
-                                        <div class="tags-email-wrapper mb-1">
-                                            <vue-tags-input
-                                                hide-details="auto"
-                                                :rules="arrayNotEmptyRules"
-                                                :tags="options"
-                                                :add-on-blur=true
-                                                :add-on-key="[13, ',']"
-                                                :validation="tagsValidation"
-                                                placeholder="e.g. name@email.com"
-                                                @tags-changed="newTags => {
-                                                    this.options = newTags
-                                                    this.tagsInput.touched = true
-                                                    this.tagsInput.hasError = (this.options.length > 0) ? false : true
-                                                    let el = this.documentProto.getElementsByClassName('ti-input')[0]
-                                                    if (typeof el!=='udnefined') {
-                                                        if (this.tagsInput.hasError)
-                                                            el.classList.add('ti-new-tag-input-error')
-                                                        else
-                                                            el.classList.remove('ti-new-tag-input-error')
-                                                    }
-                                                }"
-                                            />
-                                        </div>
-
-                                        <div v-if="tagsInput.touched" class="v-text-field__details">
-                                            <div class="v-messages theme--light error--text" role="alert">
-                                                <div class="v-messages__wrapper">
-                                                    <div v-if="(options.length > 0) && warehouseEmailAddress!==''" class="v-messages__message">
-                                                        {{
-                                                            tagsInput.errorMessage
-                                                        }}
-                                                    </div>
-
-                                                    <div v-if="options.length == 0 && warehouseEmailAddress!==''" class="v-messages__message">
-                                                        {{
-                                                            tagsInput.errorMessage
-                                                        }}
-                                                    </div>
-                                                    <div v-if="options.length == 0 && warehouseEmailAddress==''" class="v-messages__message">
-                                                        Please provide at least 1 valid email address.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- <span style="color: #819FB2; font-size: 12px;">
-                                            Press the "Enter" or "," key in your keyboard to confirm the email address
-                                        </span> -->
+                                        <v-text-field
+                                            flat solo
+                                            type="email"
+                                            placeholder="e.g. name@email.com"
+                                            outlined 
+                                            class="text-fields"
+                                            :rules="rules"
+                                            hide-details="auto">
+                                        </v-text-field>
                                     </v-col>
 
                                     <v-col cols="12" sm="12" md="12" class="pb-0">
@@ -145,14 +105,15 @@
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-text-field
                                                         flat solo
-                                                        v-model="date"
-                                                        class="text-fields"
-                                                        outlined
-                                                        label="Select Date"
-                                                        append-icon="mdi-calendar"
-                                                        readonly
-                                                        v-bind="attrs"
-                                                        v-on="on"
+                                                    v-model="date"
+                                                    class="text-fields"
+                                                    outlined
+                                                    label="Select Date"
+                                                    append-icon="mdi-calendar"
+                                                    readonly
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                        
                                                     ></v-text-field>
                                                 </template>
                                                 <v-date-picker
@@ -293,7 +254,7 @@
                                                         :items="product_items"
                                                         outlined
                                                         :error-messages="errors"
-                                                        label="Select Product"
+                                                        placeholder="Select Product"
                                                         data-vv-name="select"
                                                         required
                                                     ></v-select>
@@ -342,8 +303,9 @@
                                                     <v-text-field
                                                         flat solo
                                                         placeholder="" 
+                                                        
                                                         value="$1500.00" 
-                                                        class="text-fields"
+                                                        class="text-fields close-amount"
                                                         :rules="rules"
                                                         hide-details="auto"
                                                         clearable
@@ -480,15 +442,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import VueTagsInput from '@johmun/vue-tags-input';
 import jQuery from 'jquery'
-import globalMethods from '../../utils/globalMethods'
+// import globalMethods from '../../utils/globalMethods'
 
 export default {
     name: 'SupplierDialog',
     props: ['editedItemData','editedIndexData', 'dialogData', 'defaultItemData','alert'],
     components: {
-        VueTagsInput,
     },
     data: () => ({
         date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -642,7 +602,7 @@ export default {
             fetchSuppliers: 'suppliers/fetchSuppliers',
             updateSuppliers: 'suppliers/updateSuppliers'
         }),
-        ...globalMethods,
+        // ...globalMethods,
         generateErrorMessage() {
             this.tagsInput.hasError = (this.options.length > 0) ? false : true
             if (this.tagsInput.hasError)
@@ -836,6 +796,12 @@ export default {
         background-color: transparent !important;
      }
   }
+// .close-amount button{
+//     color: red !important;
+//     background: blue !important;
+// }
+
+
 // .v-text-field{
 //       width: 40px;
 // }

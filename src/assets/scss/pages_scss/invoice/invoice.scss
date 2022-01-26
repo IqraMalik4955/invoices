@@ -45,13 +45,15 @@
                         table-layout: fixed;
     
                         thead  {
+                           
                             tr {
-                                th {
-                                    color: $grey;
+                                th { 
+                                    color: #6D858F !important;
                                     font-size: 12px;
                                     text-transform: uppercase;
                                     font-family: 'Inter-Regular', sans-serif;
                                     padding: 11px 20px;
+                                    white-space: nowrap;
                                 }
                             }
                         }

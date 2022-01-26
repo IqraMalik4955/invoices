@@ -377,12 +377,14 @@
     
 </template>
 <script>
+// import globalMethods from '../utils/globalMethods'
 export default {
     name: "Invoices",
 	components: {
-
+        // globalMethods,
 	},
     data: () => ({
+    date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         page:1,
         selected: [],
         tabs: ["Summary", "Invoices"],
@@ -455,9 +457,23 @@ export default {
         ],
     }),
     methods: {
+        // ...globalMethods,
         setMainTab(value){
             this.currentTab = value
-        }
+        },
+         onButtonClick() {
+            this.isSelecting = true
+            window.addEventListener('focus', () => {
+                this.isSelecting = false
+            }, { once: true })
+
+            this.$refs.uploader.click()
+        },
+        onFileChanged(e) {
+            this.selectedFile = e.target.files[0]
+            
+            // do something
+        },
     },
     mounted() {
         //set current page
@@ -491,14 +507,17 @@ export default {
 
     color: #819FB2;
 }
-.v-data-table-header tr th {
-    color: #819FB2 !important;
-    font-size: 12px;
-    text-transform: uppercase;
-    font-family: 'Inter-Regular', sans-serif;
-    padding: 11px 20px;
-    white-space: nowrap;
+.h-color{
+    background-color: #F7F7F7 !important;
 }
+// .v-data-table-header tr th {
+//     color: #819FB2 !important;
+//     font-size: 12px;
+//     text-transform: uppercase;
+//     font-family: 'Inter-Regular', sans-serif;
+//     padding: 11px 20px;
+//     white-space: nowrap;
+// }
 @import '../assets/scss/pages_scss/payments/payments.scss';
 @import '../assets/scss/pages_scss/dialog/globalDialog.scss';
 @import '../assets/scss/buttons.scss';

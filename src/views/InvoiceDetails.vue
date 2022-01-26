@@ -329,6 +329,8 @@
                                         <img src="../assets/icons/radio2.svg"> 
                                         </template>
                                         <h4 class="step-disabled">Sent</h4>
+                                        <small class="step-subheading">06/29/2021</small>
+                                       
                                     </v-timeline-item>
                                     <v-timeline-item
                                         fill-dot
@@ -340,7 +342,14 @@
                                         <img src="../assets/icons/radio2.svg"> 
                                         </template>
                                         <h4 class="step-disabled">Paid</h4>
-                                        
+                                        <small class="step-subheading">
+                                            06/30/2021 
+                                            $1,200.00 out of $6,210.00
+                                        </small>
+                                        <br>
+                                        <small class="view-payment">
+                                            View Payment
+                                        </small>
                                     </v-timeline-item>
                                     <v-timeline-item
                                         fill-dot
@@ -352,7 +361,14 @@
                                         <img src="../assets/icons/radio2.svg"> 
                                         </template>
                                         <h4 class="step-disabled">Deposited</h4>
-                                    
+                                        <small class="step-subheading">
+                                            07/01/2021 
+                                            $800.00 out of $5,010.00
+                                        </small>
+                                        <br>
+                                        <small class="view-payment">
+                                            View Payment
+                                        </small>
                                     </v-timeline-item>
 
                                     </v-timeline>
@@ -661,6 +677,7 @@ export default {
                 value: "payment_date",
                 width: "25%", 
                 fixed: true
+                
             },
             {
                 text: "PAYMENT METHOD",
@@ -1116,18 +1133,24 @@ text-transform: uppercase;
     box-sizing: border-box !important;
     border-radius: 99px !important;
 }
-.v-data-table-header tr th {
-    color: #819FB2 !important;
-    font-size: 12px;
-    text-transform: uppercase;
-    font-family: 'Inter-Regular', sans-serif;
-    padding: 11px 20px;
-    white-space: nowrap;
-}
+// .v-data-table-header tr th {
+//     color: #819FB2 !important;
+//     font-size: 12px;
+//     text-transform: uppercase;
+//     font-family: 'Inter-Regular', sans-serif;
+//     padding: 11px 20px;
+//     white-space: nowrap;
+// }
 .text-item-label{
     font-size: 10px !important;
 }
-
+.view-payment{
+    font-weight: 600;
+font-size: 10px;
+line-height: 20px;
+/* identical to box height, or 200% */
+color: #039DDC;
+}
 @import '../assets/scss/pages_scss/invoice/invoice.scss';
 @import '../assets/scss/pages_scss/invoice/invoiceDetails.scss';
 @import '../assets/scss/buttons.scss';

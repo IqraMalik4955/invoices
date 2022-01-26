@@ -4,12 +4,12 @@
             v-model="selected"
             :headers="headers" 
             mobile-breakpoint="769"
-            :items="invoices"
+            :items="selectedInvoices"
             :single-select="singleSelect"
             item-key="name"
             show-select
             class="suppliers-table elevation-1"
-            :class="invoices !== null && invoices.length !== 'undefined' && invoices.length !== 0 ? '' : 'no-data-table'"
+            :class="selectedInvoices !== null && selectedInvoices.length !== 'undefined' && selectedInvoices.length !== 0 ? '' : 'no-data-table'"
 			:search="search"
 			:page.sync="page"
             :items-per-page="itemsPerPage"
@@ -559,7 +559,7 @@
                     </v-progress-circular>
                 </div>
 
-                <div class="no-data-wrapper" v-if="getinvoiceloading==true && invoices.length == 0">
+                <div class="no-data-wrapper" v-if="getinvoiceloading==true && selectedInvoices.length == 0">
                     <div v-if="tabs==1" class="no-data-heading">
                         <img src="../../../assets/icons/freightCompleted.svg" width="40px" height="42px" alt="">
 
@@ -608,7 +608,7 @@
         </v-data-table>
 
 		<Pagination 
-            v-if="invoices.length !== 0"
+            v-if="selectedInvoices.length !== 0"
 			:pageData.sync="page"
 			:lengthData.sync="pageCount"
 			:isMobile="isMobile"
@@ -625,7 +625,7 @@
                 max-width="500"
                 >
                 <!-- Invoice #Example has been created -->
-                Invoive #Example Saved as Draft
+                Invoice #Example Saved as Draft
             </v-alert>
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px" content-class="item-delete-dialog">
@@ -687,23 +687,24 @@ export default {
         itemsPerPage: 10,
         singleSelect: false,
         dialogDelete: false,
-        selected: [],
+        // selected: [],
         headers: [
           {
             text: 'Invoice Date',
             align: 'start',
             sortable: false,
             value: 'name',
+            width: "12%"
           },
-          { text: 'Invoive No', value: 'invoice' },
-          { text: 'Customer', value: 'customer' },
-          { text: 'Reference', value: 'reference' },
-          { text: 'Due Date', value: 'duedate' },
-          { text: 'Amount', value: 'amount' },
-          { text: 'Status', value: 'status' },
-          { text: '', value: 'actions' },
+          { text: 'Invoice No', value: 'invoice', width: "10%", align: 'start',},
+          { text: 'Customer', value: 'customer', width: "16%", align: 'start',},
+          { text: 'Reference', value: 'reference', align: 'start', },
+          { text: 'Due Date', value: 'duedate', align: 'end',},
+          { text: 'Amount', value: 'amount' , width: "10%", align: 'end',},
+          { text: 'Status', value: 'status' , width: "15%", align: 'end',},
+          { text: '', value: 'actions' , width: "13%", align: 'end',},
         ],
-        // invoices: [],
+        selectedInvoices: [],
         invoices: [
           {
             name: 'May 10, 2022',
@@ -738,7 +739,7 @@ export default {
             customer: 'White Glove Service',
             reference: '#SHIFL32456',
             duedate: 'July 16, 2022',
-            amount: '7%',
+            amount: '',
             status: {status:'Overdue', Paid_date: '', paid:''},
           },
           {
@@ -747,7 +748,7 @@ export default {
             customer: 'Opulent Operators',
             reference: '#SHIFL32455',
             duedate: 'July 10, 2022',
-            amount: '8%',
+            amount: '',
             status: {status:'Open', Paid_date: '', paid:''},
           },
           {
@@ -756,7 +757,7 @@ export default {
             customer: 'Customer Companions',
             reference: '#SHIFL32457',
             duedate: 'July 18, 2022',
-            amount: '16%',
+            amount: '',
             status: {status:'Draft', Paid_date: '', paid:''},
           },
           {
@@ -765,7 +766,7 @@ export default {
             customer: 'Syndicated Service',
             reference: '#SHIFL32458',
             duedate: 'July 20, 2022',
-            amount: '0%',
+            amount: '',
             status: {status:'Sent', Paid_date: '', paid:''},
           },
           {
@@ -774,7 +775,7 @@ export default {
             customer: 'Sensational service',
             reference: '#SHIFL32459',
             duedate: 'July 10, 2022',
-            amount: '2%',
+            amount: '',
             status: {status:'Sent', Paid_date: '', paid:''},
           },
           {
@@ -783,7 +784,7 @@ export default {
             customer: 'New Service Int.',
             reference: '#SHIFL32460',
             duedate: 'August 20, 2022',
-            amount: '45%',
+            amount: '',
             status: {status:'Sent', Paid_date: '', paid:''},
           },
           {
@@ -792,7 +793,7 @@ export default {
             customer: 'Syndicated Service',
             reference: '#SHIFL32461',
             duedate: 'July 10, 2022',
-            amount: '22%',
+            amount: '',
             status: {status:'Sent', Paid_date: '', paid:''},
           },
           {
@@ -801,7 +802,7 @@ export default {
             customer: 'Opulent service',
             reference: '#SHIFL32462',
             duedate: 'July 10, 2022',
-            amount: '6%',
+            amount: '',
             status: {status:'Sent', Paid_date: '', paid:''},
           },
         ],
@@ -839,7 +840,9 @@ export default {
         }
     },
     watch: {},
-    created() {},
+    created() {
+        this.selectedInvoices=this.invoices;
+    },
     methods: {
         changeTabValue(tab){
             if(tab=='Paid'){
@@ -902,6 +905,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    white-space: nowrap;
     }
     .table-container .p {
     flex: 1 1 100%;
@@ -919,9 +923,9 @@ export default {
     // .v-dialog{
     //     align-self: flex-end !important;
     // }
-/* @import '../../../assets/css/suppliers_styles/suppliers.css';
-@import '../../../assets/css/dialog_styles/dialogHeader.css';
-@import '../../../assets/css/dialog_styles/dialogBody.css';
-@import '../../../assets/css/dialog_styles/dialogFooter.css'; */
+// @import '../../../assets/css/suppliers_styles/suppliers.css';
+// @import '../../../assets/css/dialog_styles/dialogHeader.css';
+// @import '../../../assets/css/dialog_styles/dialogBody.css';
+// @import '../../../assets/css/dialog_styles/dialogFooter.css'; 
 
 </style>

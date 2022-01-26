@@ -455,7 +455,12 @@ ul {
 .vue-tel-input input::placeholder {
     color: #B4CFE0;
 }
-
+/* .theme--light.v-input input, .theme--light.v-input textarea::placeholder{
+    color: #B4CFE0 !important; 
+} */
+.theme--light.v-input input, .theme--light.v-input textarea{
+    color: black !important; 
+}
 .v-text-fields.select.v-multiple .vs__dropdown-toggle .vs__selected-options .vs__selected {
     border-radius: 4px;
     font-size: 12px;
