@@ -4,13 +4,14 @@
             v-model="selected"
             :headers="headers" 
             mobile-breakpoint="769"
-            :items="selectedInvoices"
+            :items="invoices"
             :single-select="singleSelect"
             item-key="name"
             show-select
             class="suppliers-table elevation-1"
-            :class="selectedInvoices !== null && selectedInvoices.length !== 'undefined' && selectedInvoices.length !== 0 ? '' : 'no-data-table'"
+            :class="invoices !== null && invoices.length !== 'undefined' && invoices.length !== 0 ? '' : 'no-data-table'"
 			:search="search"
+            :custom-filter="customFilter"
 			:page.sync="page"
             :items-per-page="itemsPerPage"
 			@page-count="pageCount = $event"
@@ -69,20 +70,8 @@
                 </v-toolbar>
             </template>
 			<template v-slot:[`item.name`]="{ item }">
-                <div v-if="tabs==1">
-                    <div style="white-space: nowrap" v-if="item.name !== ''">
-                        <p class="mb-0">{{ item.name }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <div style="white-space: nowrap" v-if="item.name !== ''">
-                        <p class="mb-0">{{ item.name }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <div style="white-space: nowrap" v-if="item.name !== ''">
-                        <p class="mb-0">{{ item.name }}</p>
-                    </div>
+                <div style="white-space: nowrap" v-if="item.name !== ''">
+                    <p class="mb-0">{{ item.name }}</p>
                 </div>
 
                 <!-- <div v-if="item.customer == ''">
@@ -90,42 +79,17 @@
                 </div> -->
             </template>
             <template v-slot:[`item.invoice`]="{ item }">
-                <div v-if="tabs==1">
-                    <div style="white-space: nowrap" v-if="item.invoice !== ''">
-                        <p class="mb-0">{{ item.invoice }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <div style="white-space: nowrap" v-if="item.invoice !== ''">
-                        <p class="mb-0">{{ item.invoice }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <div style="white-space: nowrap" v-if="item.invoice !== ''">
-                        <p class="mb-0">{{ item.invoice }}</p>
-                    </div>
+                <div style="white-space: nowrap" v-if="item.invoice !== ''">
+                    <p class="mb-0">{{ item.invoice }}</p>
                 </div>
 
                 <!-- <div v-if="item.customer == ''">
                     <p class="mb-0" style="color: #4a4a4a;">--</p>
                 </div> -->
             </template>
-
 			<template v-slot:[`item.customer`]="{ item }">
-                <div v-if="tabs==1">
-                    <div style="white-space: nowrap" v-if="item.customer !== ''">
-                        <p class="mb-0">{{ item.customer }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <div style="white-space: nowrap" v-if="item.customer !== ''">
-                            <p class="mb-0">{{ item.customer }}</p>
-                    </div>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <div style="white-space: nowrap" v-if="item.customer !== ''">
-                            <p class="mb-0">{{ item.customer }}</p>
-                    </div>
+                <div style="white-space: nowrap" v-if="item.customer !== ''">
+                    <p class="mb-0">{{ item.customer }}</p>
                 </div>
                 
 
@@ -133,180 +97,62 @@
                     <p class="mb-0" style="color: #4a4a4a;">--</p>
                 </div> -->
             </template>
-
             <template v-slot:[`item.reference`]="{ item }">
-                <div v-if="tabs==1">
-                    <p style="color: #0171A1; white-space: nowrap" class="mb-0 table-wrapper">{{ item.reference !== '' ? item.reference : '--' }}</p>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <p style="color: #0171A1; white-space: nowrap" class="mb-0 table-wrapper">{{ item.reference !== '' ? item.reference : '--' }}</p>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <p style="color: #0171A1; white-space: nowrap" class="mb-0 table-wrapper">{{ item.reference !== '' ? item.reference : '--' }}</p>
-                </div>
+                <p style="color: #0171A1; white-space: nowrap" class="mb-0 table-wrapper">{{ item.reference !== '' ? item.reference : '--' }}</p>
             </template>  
-
             <template v-slot:[`item.duedate`]="{ item }">
-                <div v-if="tabs==1">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.duedate !== '' ? item.duedate : '--' }}</p>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.duedate !== '' ? item.duedate : '--' }}</p>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.duedate !== '' ? item.duedate : '--' }}</p>
-                </div>
+                <p style="white-space: nowrap" class="mb-0">{{ item.duedate !== '' ? item.duedate : '--' }}</p>
+
             </template> 
             <template v-slot:[`item.amount`]="{ item }">
-                <div v-if="tabs==1">
                     <p style="white-space: nowrap" class="mb-0">{{ item.amount !== '' ? item.amount : '--' }}</p>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.amount !== '' ? item.amount : '--' }}</p>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.amount !== '' ? item.amount : '--' }}</p>
-                </div>
             </template> 
-            <template v-slot:[`item.status`]="{ item }">
-                 <div v-if="tabs==1">
-                    <div v-if="item.status !== ''">
-                        <div v-if="item.status.status == 'paid'">
+            <template v-slot:[`item.status`]="{ item }"
+            >
+                        <div v-if="item.status == 'paid'">
                             <p style="margin-bottom: 0px; color: #49AF41; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
                             <p style="color: grey; white-space: nowrap">
-                                On {{ item.status.paid_date }}
+                                On {{ item.paid_date }}
                             </p>
                         </div>
-                        <div v-if="item.status.status == 'Overdue'">
+                        <div v-if="item.status == 'Overdue'">
                             <p style="margin-bottom: 0px; color: red; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                Partially paid, {{ item.status.paid }}
+                            <p v-if="item.status !== ''" style="color: grey; white-space: nowrap">
+                                Partially paid, {{ item.paid }}
                             </p>
                         </div>
-                        <div v-if="item.status.status == 'Partially Paid'">
+                        <div v-if="item.status == 'Partially Paid'">
                             <p style="margin-bottom: 0px; color: #2DC48E; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                paid, {{ item.status.paid }}
+                            <p v-if="item.paid !== ''" style="color: grey; white-space: nowrap">
+                                paid, {{ item.paid }}
                             </p>
                         </div>
-                        <div v-if="item.status.status == 'Open'">
+                        <div v-if="item.status == 'Open'">
                             <p style="margin-bottom: 0px; color: #0171A1; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
                         </div>
-                        <div v-if="item.status.status == 'Draft'">
+                        <div v-if="item.status == 'Draft'">
                             <p style="margin-bottom: 0px; color: grey; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
                         </div>
-                        <div v-if="item.status.status == 'Sent'">
+                        <div v-if="item.status == 'Sent'">
                             <p style="margin-bottom: 0px; white-space: nowrap">
-                                {{ item.status.status }}
+                                {{ item.status }}
                             </p>
                         </div>
-                    </div>
-                    <p v-if="item.status == ''">--</p>
-                </div>
-                <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <div v-if="item.status !== ''">
-                        <div v-if="item.status.status == 'paid'">
-                            <p style="margin-bottom: 0px; color: #49AF41; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p style="color: grey; white-space: nowrap">
-                                On {{ item.status.paid_date }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Overdue'">
-                            <p style="margin-bottom: 0px; color: red; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                Partially paid, {{ item.status.paid }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Partially Paid'">
-                            <p style="margin-bottom: 0px; color: #2DC48E; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                paid, {{ item.status.paid }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Open'">
-                            <p style="margin-bottom: 0px; color: #0171A1; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Draft'">
-                            <p style="margin-bottom: 0px; color: grey; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Sent'">
-                            <p style="margin-bottom: 0px; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                    </div>
-                    <p v-if="item.status == ''">--</p>
-                </div>
-                <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <div v-if="item.status !== ''">
-                        <div v-if="item.status.status == 'paid'">
-                            <p style="margin-bottom: 0px; color: #49AF41; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p style="color: grey; white-space: nowrap">
-                                On {{ item.status.paid_date }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Overdue'">
-                            <p style="margin-bottom: 0px; color: red; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                Partially paid, {{ item.status.paid }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Partially Paid'">
-                            <p style="margin-bottom: 0px; color: #2DC48E; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                            <p v-if="item.status.paid !== ''" style="color: grey; white-space: nowrap">
-                                paid, {{ item.status.paid }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Open'">
-                            <p style="margin-bottom: 0px; color: #0171A1; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Draft'">
-                            <p style="margin-bottom: 0px; color: grey; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                        <div v-if="item.status.status == 'Sent'">
-                            <p style="margin-bottom: 0px; white-space: nowrap">
-                                {{ item.status.status }}
-                            </p>
-                        </div>
-                    </div>
-                    <p v-if="item.status == ''">--</p>
-                </div>
 
             </template> 
             <template v-slot:[`item.actions`]="{ item }">
-                <div v-if="tabs==1">
-                    <div class="text-center">
-                        <v-menu offset-y>
+                <div class="text-center">
+                    <v-menu offset-y>
                         <template v-slot:activator="{ on, attrs }">
                             <div class="d-flex">
                                 <v-btn
@@ -381,174 +227,60 @@
                             <small style="color: red"> Delete </small>
                             </v-list-item>
                         </v-list>
-                        </v-menu>
-                    </div>
-                 </div>
-                 <div v-if="tabs==2 && (item.status.status=='paid' || item.status.status=='Partially Paid')">
-                    <div class="text-center">
-                        <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <div class="d-flex">
-                                <v-btn
-                                    class="mx-2 rounded"
-                                    fab
-                                    dark
-                                    small
-                                    outlined
-                                    tile
-                                    color="primary"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >
-                                    <img src="../../../assets/icons/view-blue.svg" alt="">
-                                </v-btn>
-                                <v-btn
-                                    class="mx-2 rounded"
-                                    fab
-                                    dark
-                                    small
-                                    outlined
-                                    tile
-                                    color="primary"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >
-                                    <img src="../../../assets/icons/more.svg" alt="">
-                                </v-btn>
-                            </div>
-                        </template>
-                        <v-list class="py-0"
-                        style="width: 150px; overflow-x: visible"
-                        >
-                            <v-list-item  v-if="item.status.status == 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small style="color: #0171A1"> Recieve Payment </small>
-                            </v-list-item>
-                            <v-list-item v-if="item.status.status !== 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small style="color: #0171A1"> Print </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> View </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Edit </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Duplicate </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Send </small>
-                            </v-list-item>
-                            <v-list-item v-if="item.status.status == 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Send Reminder</small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="deleteInvoice"
-                            >
-                            <small style="color: red"> Delete </small>
-                            </v-list-item>
-                        </v-list>
-                        </v-menu>
-                    </div>
-                 </div>
-                 <div v-if="tabs==3 && (item.status.status=='Overdue' || item.status.status=='Open' || item.status.status=='Draft' || item.status.status=='Sent')">
-                    <div class="text-center">
-                        <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
-                            <div class="d-flex">
-                                <v-btn
-                                    class="mx-2 rounded"
-                                    fab
-                                    dark
-                                    small
-                                    outlined
-                                    tile
-                                    color="primary"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >
-                                    <img src="../../../assets/icons/view-blue.svg" alt="">
-                                </v-btn>
-                                <v-btn
-                                    class="mx-2 rounded"
-                                    fab
-                                    dark
-                                    small
-                                    outlined
-                                    tile
-                                    color="primary"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    >
-                                    <img src="../../../assets/icons/more.svg" alt="">
-                                </v-btn>
-                            </div>
-                        </template>
-                        <v-list class="py-0"
-                        style="width: 150px; overflow-x: visible"
-                        >
-                            <v-list-item  v-if="item.status.status == 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small style="color: #0171A1"> Recieve Payment </small>
-                            </v-list-item>
-                            <v-list-item v-if="item.status.status !== 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small style="color: #0171A1"> Print </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> View </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Edit </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Duplicate </small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Send </small>
-                            </v-list-item>
-                            <v-list-item v-if="item.status.status == 'Partially Paid'"
-                            style="min-height: 30px" @click="editSupplier(item)"
-                            >
-                            <small> Send Reminder</small>
-                            </v-list-item>
-                            <v-list-item
-                            style="min-height: 30px" @click="deleteInvoice"
-                            >
-                            <small style="color: red"> Delete </small>
-                            </v-list-item>
-                        </v-list>
-                        </v-menu>
-                    </div>
-                 </div>
+                    </v-menu>
+                </div>
             </template>
 <!-- <div class="item-button" @click="editSupplier(item)">
 					<img src="../../../assets/icons/edit-blue.svg" alt="">
 				</div> -->
 
+             <template slot="no-results">
+                <div class="no-data-wrapper">
+                    <div class="pa-15">
+                        <img src="../../../assets/images/search-icon.svg" width="40px" height="42px" alt="">
+
+                        <h3> No matching result </h3>
+                        <p>
+                            Sorry! We could not find any invoice that matches<br>
+                            your search term.
+                        </p>
+
+                        <div class="mt-4">
+                            <v-btn color="primary" outlined class="add-supplier">
+                                Try Different Search
+                            </v-btn>
+                        </div>
+                    </div>
+                    <div v-if="tabs==2" class="no-data-heading">
+                        <img src="../../../assets/icons/freightCompleted.svg" width="40px" height="42px" alt="">
+
+                        <h3> No paid Invoices </h3>
+                        <p>
+                            There is no invoice on Paid Status
+                        </p>
+
+                        <div class="mt-4">
+                            <v-btn color="primary" outlined class="btn-blue add-supplier" @click.stop="addSupplier">
+                                Create Invoice
+                            </v-btn>
+                        </div>
+                    </div>
+                    <div v-if="tabs==3" class="no-data-heading">
+                        <img src="../../../assets/icons/freightCompleted.svg" width="40px" height="42px" alt="">
+
+                        <h3> No Unpaid Invoices </h3>
+                        <p>
+                            There is no invoice on unpaid status
+                        </p>
+
+                        <div class="mt-4">
+                            <v-btn color="primary" outlined class="btn-blue add-supplier" @click.stop="addSupplier">
+                                Create Invoice
+                            </v-btn>
+                        </div>
+                    </div>
+                </div>
+            </template>   
             <template v-slot:no-data>
                 <div class="no-data-preloader mt-4" v-if="getinvoiceloading==false">
                     <v-progress-circular
@@ -559,7 +291,7 @@
                     </v-progress-circular>
                 </div>
 
-                <div class="no-data-wrapper" v-if="getinvoiceloading==true && selectedInvoices.length == 0">
+                <div class="no-data-wrapper" v-if="getinvoiceloading==true && invoices.length == 0">
                     <div v-if="tabs==1" class="no-data-heading">
                         <img src="../../../assets/icons/freightCompleted.svg" width="40px" height="42px" alt="">
 
@@ -608,7 +340,7 @@
         </v-data-table>
 
 		<Pagination 
-            v-if="selectedInvoices.length !== 0"
+            v-if="invoices.length !== 0"
 			:pageData.sync="page"
 			:lengthData.sync="pageCount"
 			:isMobile="isMobile"
@@ -688,6 +420,14 @@ export default {
         singleSelect: false,
         dialogDelete: false,
         // selected: [],
+        filters: {
+            paid: '',
+            Overdue: '',
+            Partially_Paid: '',
+            Open: '',
+            Draft: '',
+            Sent: ''
+        },
         headers: [
           {
             text: 'Invoice Date',
@@ -704,7 +444,6 @@ export default {
           { text: 'Status', value: 'status' , width: "15%", align: 'end',},
           { text: '', value: 'actions' , width: "13%", align: 'end',},
         ],
-        selectedInvoices: [],
         invoices: [
           {
             name: 'May 10, 2022',
@@ -713,7 +452,10 @@ export default {
             reference: '#SHIFL32451',
             duedate: 'June 5, 2022',
             amount: '$5,830.50',
-            status: {status:'paid', paid_date: 'June 4, 2021', paid:''},
+            // status: {status:'paid', paid_date: 'June 4, 2021', paid:''},
+            status:'paid',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'June 15, 2022',
@@ -722,7 +464,10 @@ export default {
             reference: '#SHIFL32452',
             duedate: 'July 10, 2022',
             amount: '$3,250.00',
-            status: {status:'Overdue', Paid_date: '', paid:'$1000'},
+            // status: {status:'Overdue', Paid_date: '', paid:'$1000'},
+            status:'Overdue',
+            paid_date: 'June 4, 2021',
+            paid:'$1000',
           },
           {
             name: 'June 18, 2022',
@@ -731,7 +476,10 @@ export default {
             reference: '#SHIFL32453',
             duedate: 'July 15, 2022',
             amount: '$6420.00',
-            status: {status:'Partially Paid', Paid_date: '', paid:'$2000'},
+            // status: {status:'Partially Paid', Paid_date: '', paid:'$2000'},
+            status:'Partially Paid',
+            paid_date: 'June 4, 2021',
+            paid:'$2000',
           },
           {
             name: 'June 10, 2022',
@@ -740,7 +488,10 @@ export default {
             reference: '#SHIFL32456',
             duedate: 'July 16, 2022',
             amount: '',
-            status: {status:'Overdue', Paid_date: '', paid:''},
+            // status: {status:'Overdue', Paid_date: '', paid:''},
+            status:'Overdue',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'June 5,2022',
@@ -749,7 +500,10 @@ export default {
             reference: '#SHIFL32455',
             duedate: 'July 10, 2022',
             amount: '',
-            status: {status:'Open', Paid_date: '', paid:''},
+            // status: {status:'Open', Paid_date: '', paid:''},
+            status:'Open',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'July 14, 2022',
@@ -758,7 +512,10 @@ export default {
             reference: '#SHIFL32457',
             duedate: 'July 18, 2022',
             amount: '',
-            status: {status:'Draft', Paid_date: '', paid:''},
+            // status: {status:'Draft', Paid_date: '', paid:''},
+            status:'Draft',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'July 16, 2022',
@@ -767,7 +524,10 @@ export default {
             reference: '#SHIFL32458',
             duedate: 'July 20, 2022',
             amount: '',
-            status: {status:'Sent', Paid_date: '', paid:''},
+            // status: {status:'Sent', Paid_date: '', paid:''},
+            status:'Sent',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'June 7, 2022',
@@ -776,7 +536,10 @@ export default {
             reference: '#SHIFL32459',
             duedate: 'July 10, 2022',
             amount: '',
-            status: {status:'Sent', Paid_date: '', paid:''},
+            // status: {status:'Sent', Paid_date: '', paid:''},
+            status:'Sent',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'August 13, 2022',
@@ -785,7 +548,10 @@ export default {
             reference: '#SHIFL32460',
             duedate: 'August 20, 2022',
             amount: '',
-            status: {status:'Sent', Paid_date: '', paid:''},
+            // status: {status:'Sent', Paid_date: '', paid:''},
+            status:'Sent',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'June 2, 2022',
@@ -794,7 +560,10 @@ export default {
             reference: '#SHIFL32461',
             duedate: 'July 10, 2022',
             amount: '',
-            status: {status:'Sent', Paid_date: '', paid:''},
+            // status: {status:'Sent', Paid_date: '', paid:''},
+            status:'Sent',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
           {
             name: 'June 4, 2022',
@@ -803,7 +572,10 @@ export default {
             reference: '#SHIFL32462',
             duedate: 'July 10, 2022',
             amount: '',
-            status: {status:'Sent', Paid_date: '', paid:''},
+            // status: {status:'Sent', Paid_date: '', paid:''},
+            status:'Sent',
+            paid_date: 'June 4, 2021',
+            paid:'',
           },
         ],
 
@@ -841,17 +613,31 @@ export default {
     },
     watch: {},
     created() {
-        this.selectedInvoices=this.invoices;
     },
     methods: {
-        changeTabValue(tab){
+     changeTabValue(tab){
             if(tab=='Paid'){
                 this.tabs=2
+                this.search='paid'
+                // this.filters.paid='paid'
+                // this.filters.Partially_Paid="Partially Paid"
             }
             else if (tab=="Unpaid"){
                 this.tabs=3
+                this.search="Overdue"
+                // this.filters.Overdue="Overdue" 
+        //         filters: {
+        //     paid: '',
+        //     Overdue: '',
+        //     Partially_Paid: '',
+        //     Open: '',
+        //     Draft: '',
+        //     Sent: ''
+        // },
+
             } else if (tab=="All"){
                 this.tabs=1
+                this.search=""
             }
         },
         handleClick() {                

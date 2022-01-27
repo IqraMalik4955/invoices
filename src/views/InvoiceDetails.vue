@@ -45,16 +45,16 @@
                                    Overdue
                                 </v-chip> -->
                             </div>
-                            <!-- <div>
+                            <div>
                                 <v-btn elevation="0" class="btn-white mx-1" @click.stop="addSupplier">
                                         Edit Invoice
                                 </v-btn>
                                 <v-btn class="btn-blue mx-1" @click.stop="recievepayment">
                                     <div class="white--text text-capitalize">
-                                        Receive Payment
+                                         Receive Payment
                                     </div>
                                 </v-btn>
-                            </div> -->
+                            </div>
 
                         </div> 
                     </div>
