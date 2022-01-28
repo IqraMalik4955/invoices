@@ -1,6 +1,7 @@
 @import '../../colors.scss';
 
 .shipment-details-wrapper {
+    padding: 24px;
     .preloader {
         width: 100%;
         display: flex;
@@ -54,14 +55,14 @@
     }
 
     .first-col {
-        padding: 10px 20px;
+        padding: 0px 20px;
         font-family: 'Inter-Regular', sans-serif;
 
         .details-breadcrumbs {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 15px 0;
+            padding-bottom: 15px;
 
             .shipment-link {
                 font-size: 14px;

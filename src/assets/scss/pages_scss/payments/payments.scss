@@ -1,6 +1,6 @@
 @import '../../colors.scss';
 .payment-container {
-    padding: 24px;
+    padding: 15px 24px 24px 24px;
     font-family: 'Inter-Regular', sans-serif;
 }
 
@@ -277,6 +277,7 @@
 
 
 .payment-details-wrapper {
+    padding: 15px 24px 24px 24px;
     .preloader {
         width: 100%;
         display: flex;

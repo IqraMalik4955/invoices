@@ -62,7 +62,7 @@
                         <v-tab  @click="changeTabValue(item.tab)"
                             v-for="item in tabitems"
                             :key="item.tab"
-                        ><div class="font-weight-bold text-capitalize text-black">
+                        ><div class="">
                             {{ item.tab }}
                         </div>
                         </v-tab>
@@ -101,11 +101,13 @@
                 <p style="color: #0171A1; white-space: nowrap" class="mb-0 table-wrapper">{{ item.reference !== '' ? item.reference : '--' }}</p>
             </template>  
             <template v-slot:[`item.duedate`]="{ item }">
-                <p style="white-space: nowrap" class="mb-0">{{ item.duedate !== '' ? item.duedate : '--' }}</p>
-
+                <p style="white-space: nowrap" class="mb-0" v-if="item.duedate !== ''">{{item.duedate}}</p>
+                <p style="white-space: nowrap" class="mb-0" v-if="item.duedate == ''" >{{ '--' }}</p>
             </template> 
             <template v-slot:[`item.amount`]="{ item }">
-                    <p style="white-space: nowrap" class="mb-0">{{ item.amount !== '' ? item.amount : '--' }}</p>
+                    <!-- <p style="white-space: nowrap" class="mb-0">{{ item.amount !== '' ? item.amount : '--' }}</p> -->
+                    <p style="white-space: nowrap" class="mb-0" v-if="item.amount !== ''">{{item.amount}}</p>
+                <p style="white-space: nowrap" class="mb-0 text-center" v-if="item.amount == ''" >{{ '--' }}</p>
             </template> 
             <template v-slot:[`item.status`]="{ item }"
             >
@@ -450,131 +452,131 @@ export default {
             invoice: 10000145,
             customer: 'Syndicated service',
             reference: '#SHIFL32451',
-            duedate: 'June 5, 2022',
+            duedate: 'Jun 5, 2022',
             amount: '$5,830.50',
-            // status: {status:'paid', paid_date: 'June 4, 2021', paid:''},
+            // status: {status:'paid', paid_date: 'Jun 4, 2021', paid:''},
             status:'paid',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'June 15, 2022',
+            name: 'Jun 15, 2022',
             invoice: 10003456,
             customer: 'Sensational Service',
             reference: '#SHIFL32452',
-            duedate: 'July 10, 2022',
+            duedate: 'Jul 10, 2022',
             amount: '$3,250.00',
             // status: {status:'Overdue', Paid_date: '', paid:'$1000'},
             status:'Overdue',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'$1000',
           },
           {
-            name: 'June 18, 2022',
+            name: 'Jun 18, 2022',
             invoice: 10003457,
             customer: 'New Service Int.',
             reference: '#SHIFL32453',
-            duedate: 'July 15, 2022',
+            duedate: 'Jul 15, 2022',
             amount: '$6420.00',
             // status: {status:'Partially Paid', Paid_date: '', paid:'$2000'},
             status:'Partially Paid',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'$2000',
           },
           {
-            name: 'June 10, 2022',
+            name: 'Jun 10, 2022',
             invoice: 10003458,
             customer: 'White Glove Service',
             reference: '#SHIFL32456',
-            duedate: 'July 16, 2022',
+            duedate: 'Jul 16, 2022',
             amount: '',
             // status: {status:'Overdue', Paid_date: '', paid:''},
             status:'Overdue',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'June 5,2022',
+            name: 'Jun 5,2022',
             invoice: 10003459,
             customer: 'Opulent Operators',
             reference: '#SHIFL32455',
-            duedate: 'July 10, 2022',
+            duedate: 'Jul 10, 2022',
             amount: '',
             // status: {status:'Open', Paid_date: '', paid:''},
             status:'Open',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'July 14, 2022',
+            name: 'Jul 14, 2022',
             invoice: 10003465,
             customer: 'Customer Companions',
             reference: '#SHIFL32457',
-            duedate: 'July 18, 2022',
+            duedate: 'Jul 18, 2022',
             amount: '',
             // status: {status:'Draft', Paid_date: '', paid:''},
             status:'Draft',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'July 16, 2022',
+            name: 'Jul 16, 2022',
             invoice: 10003460,
             customer: 'Syndicated Service',
             reference: '#SHIFL32458',
-            duedate: 'July 20, 2022',
+            duedate: 'Jul 20, 2022',
             amount: '',
             // status: {status:'Sent', Paid_date: '', paid:''},
             status:'Sent',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'June 7, 2022',
+            name: 'Jun 7, 2022',
             invoice: 10003461,
             customer: 'Sensational service',
             reference: '#SHIFL32459',
-            duedate: 'July 10, 2022',
+            duedate: 'Jul 10, 2022',
             amount: '',
             // status: {status:'Sent', Paid_date: '', paid:''},
             status:'Sent',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'August 13, 2022',
+            name: 'Aug 13, 2022',
             invoice: 10003462,
             customer: 'New Service Int.',
             reference: '#SHIFL32460',
-            duedate: 'August 20, 2022',
+            duedate: 'Aug 20, 2022',
             amount: '',
             // status: {status:'Sent', Paid_date: '', paid:''},
             status:'Sent',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'June 2, 2022',
+            name: 'Jun 2, 2022',
             invoice: 10003463,
             customer: 'Syndicated Service',
             reference: '#SHIFL32461',
-            duedate: 'July 10, 2022',
+            duedate: 'Jul 10, 2022',
             amount: '',
             // status: {status:'Sent', Paid_date: '', paid:''},
             status:'Sent',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
           {
-            name: 'June 4, 2022',
+            name: 'Jun 4, 2022',
             invoice: 10003464,
             customer: 'Opulent service',
             reference: '#SHIFL32462',
-            duedate: 'July 10, 2022',
+            duedate: 'Jul 10, 2022',
             amount: '',
             // status: {status:'Sent', Paid_date: '', paid:''},
             status:'Sent',
-            paid_date: 'June 4, 2021',
+            paid_date: 'Jun 4, 2021',
             paid:'',
           },
         ],
@@ -671,22 +673,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .customTab {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
+    // .customTab {
+    //     border-top-left-radius: 4px;
+    //     border-top-right-radius: 4px;
+    // }
+
+    .v-tab {
+        padding: 12px 8px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: capitalize !important;
+        color: #4a4a4a !important;
     }
     .v-tab--active {
         color: #0171a1 !important;
     }
-    .v-tab {
-        padding: 12px 8px !important;
-        font-size: 13px !important;
-    }
-    .v-tab:before,
-    .v-tab:focus,
-    .v-tab:hover {
-        background-color: transparent !important;
-    }
+    // .v-tab:before,
+    // .v-tab:focus,
+    // .v-tab:hover {
+    //     background-color: transparent !important;
+    // }
     .table-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -706,10 +712,13 @@ export default {
         right: 25vw !important;
         position: absolute !important;
     }
+    .v-icon.notranslate.mdi.mdi-checkbox-blank-outline.theme--light {
+    color: red !important;
+}
     // .v-dialog{
     //     align-self: flex-end !important;
     // }
-// @import '../../../assets/css/suppliers_styles/suppliers.css';
+@import '../../../assets/css/suppliers_styles/suppliers.css';
 // @import '../../../assets/css/dialog_styles/dialogHeader.css';
 // @import '../../../assets/css/dialog_styles/dialogBody.css';
 // @import '../../../assets/css/dialog_styles/dialogFooter.css'; 

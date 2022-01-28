@@ -319,8 +319,8 @@
                                             <tr class="">
                                                 <td>
                                                     <v-btn
-                                                        color="primary"
-                                                        outlined
+                                                        class="text-capitalize elevation-0"
+                                                    style="font-weight:600 !important; background-color:white; border: 1px solid #B4CFE0;color: #0171A1;"
                                                         >
                                                         <v-icon left>
                                                             mdi-plus
@@ -345,18 +345,17 @@
                                 <v-row class="mt-2" justify="space-between">
                                     <v-col cols="4" sm="12" md="4" class="pb-0">
                                         <label class="text-item-label">ATTACHMENTS
-                                            <v-row class="d-flex flex-column py-10 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
+                                            <v-row class="d-flex flex-column text-capitalize py-10 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
                                                 <p>
                                                     Browse or Drop Image
                                                 </p>
                                                 <v-btn
-                                                    outlined
-                                                    color="primary"
+                                                    
+                                                    class="text-capitalize elevation-0"
+                                                    style="font-weight:600 !important; background-color:white; border: 1px solid #B4CFE0;color: #0171A1;"
                                                     @click="onButtonClick"
                                                     >
-                                                    <v-icon left>
-                                                        mdi-arrow-expand-up
-                                                    </v-icon>
+                                                    <img src="../../assets/icons/upload.svg" alt="" width="20px" height="20px">
                                                     Upload
                                                 </v-btn>
                                                 <input

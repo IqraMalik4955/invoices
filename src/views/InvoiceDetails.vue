@@ -471,7 +471,7 @@
             </v-row>
         </div>
         <template>
-            <v-dialog v-model="dialog" max-width="560px" content-class="add-supplier-dialog" v-resize="onResize" :retain-focus="false">
+            <v-dialog v-model="dialog" max-width="718px" content-class="add-supplier-dialog" v-resize="onResize" :retain-focus="false">
                 <v-card class="add-supplier-card">
                     <v-form ref="form" v-model="valid" action="#" @submit.prevent="">
                         <v-card-title>
@@ -541,7 +541,7 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col cols="12" sm="12" md="12" lg="5" class="pb-0">
+                                <v-col cols="12" sm="12" md="12" lg="5" class="pb-0 pt-0 mt-0">
                                     <label class="text-item-label">Payment Date</label>
                                     <v-text-field 
                                         placeholder="Select Payment Date" 
@@ -582,7 +582,7 @@
                                     <v-text-field 
                                         placeholder="Select Payment Method" 
                                         outlined 
-                                        class="text-fields"
+                                        class="text-fields text-right"
                                         
                                         :rules="rules"
                                         hide-details="auto">
@@ -594,20 +594,17 @@
                                 <v-col cols="12" sm="12" md="12" lg="6" class="pb-0">
                                     <label class="text-item-label">Attachment</label>
                                     <v-row class="d-flex flex-column py-2 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
-                                        <p>
+                                        <p class="" style="color:#B4CFE0">
                                             Browse or Drop Files
                                         </p>
-                                        <v-btn
-                                            small
-                                            outlined
-                                            color="primary"
-                                            @click="onButtonClick"
-                                            >
-                                            <v-icon left>
-                                                mdi-arrow-expand-up
-                                            </v-icon>
-                                            Upload
-                                        </v-btn>
+                                        <v-btn         
+                                        class="text-capitalize elevation-0"
+                                        style="font-weight:600 !important; background-color:white; border: 1px solid #B4CFE0;color: #0171A1;"
+                                        @click="onButtonClick"
+                                        >
+                                        <img src="../assets/icons/upload.svg" alt="" width="20px" height="20px">
+                                        Upload
+                                    </v-btn>
                                         <input
                                             ref="uploader"
                                             class="d-none"
@@ -620,7 +617,7 @@
                                 <v-col cols="12" sm="12" md="12" lg="6" class="pb-0">
                                     <label class="text-item-label">Note</label>
                                     <v-textarea
-                                        height="76px"
+                                        height="95px"
                                         class="text-fields"
                                         outlined
                                         name="input-7-4"
@@ -1073,7 +1070,7 @@ text-transform: uppercase;
 
 .v-timeline:before{
     content: "";
-    height: 70% !important;
+    height: 68% !important;
     position: absolute !important;
     top: auto !important;
     bottom: auto !important;

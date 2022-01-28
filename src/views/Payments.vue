@@ -4,7 +4,7 @@
             <v-row>
                 <v-col class="first-col pb-0 pt-5" sm="12" md="12">
                     <div id="top-header">
-                        <div class="head-wrapper">
+                        <div class="head-wrapper pb-2">
                             <div class="">
                                 <h2>
                                     Recieve Payments
@@ -12,7 +12,7 @@
                             </div>
                             <div class="d-flex flex-row align-end">
                                 <div class="pr-2">
-                                    <p class="p1 mb-0">
+                                    <p class="p1 mb-0 text-capitalize">
                                         Amount Recieved:
                                     </p>
                                 </div>
@@ -139,7 +139,7 @@
                                     <v-col cols="12" sm="12" md="12" lg="4" class="pb-0">
                                         <label class="text-item-label">Note</label>
                                         <v-textarea
-                                            height="88px"
+                                            height="110px"
                                             class="text-fields"
                                             outlined
                                             name="input-7-4"
@@ -151,19 +151,16 @@
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12" lg="4" class="pb-0">
                                         <label class="text-item-label">Attachment</label>
-                                        <v-row class="d-flex flex-column py-2 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
-                                            <p>
+                                        <v-row class="d-flex flex-column py-4 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
+                                            <p style="color:#B4CFE0">
                                                 Browse or Drop Files
                                             </p>
-                                            <v-btn
-                                                small
-                                                outlined
-                                                color="primary"
+                                            <v-btn   
+                                                class="text-capitalize elevation-0"
+                                                style="font-weight:600 !important; background-color:white; border: 1px solid #B4CFE0;color: #0171A1;"
                                                 @click="onButtonClick"
                                                 >
-                                                <v-icon left>
-                                                    mdi-arrow-expand-up
-                                                </v-icon>
+                                                <img src="../assets/icons/upload.svg" alt="" width="20px" height="20px">
                                                 Upload
                                             </v-btn>
                                             <input
@@ -239,7 +236,13 @@
                                                     </div>
                                                 </template>
                                                 <template v-slot:[`item.payment`]="{ item }">
-                                                    <p class="mb-0">{{ item.payment !== '' ? item.payment : '--' }}</p>
+                                                    <v-text-field 
+                                                        v-model=item.payment
+                                                        outlined 
+                                                        class="text-fields my-2"
+                                                        :rules="rules"
+                                                        hide-details="auto">
+                                                    </v-text-field>
                                                 </template> 
                                                 <template v-slot:[`item.open_balance`]="{ item }">
                                                     <p class="mb-0" style="white-space: nowrap">{{ item.open_balance !== '' ? item.open_balance : '--' }}</p>
@@ -329,18 +332,15 @@
                                         <v-col cols="12" sm="12" md="12" lg="4" class="pb-0">
                                             <label class="text-item-label">Attachment</label>
                                             <v-row class="d-flex flex-column py-2 mt-1" dense align="center" justify="center" style="border: 2px dashed #eee; border-radius: 5px;">
-                                                <p>
+                                                <p style="color:#B4CFE0">
                                                     Browse or Drop Files
                                                 </p>
-                                                <v-btn
-                                                    small
-                                                    outlined
-                                                    color="primary"
+                                                <v-btn   
+                                                    class="text-capitalize elevation-0"
+                                                    style="font-weight:600 !important; background-color:white; border: 1px solid #B4CFE0;color: #0171A1;"
                                                     @click="onButtonClick"
                                                     >
-                                                    <v-icon left>
-                                                        mdi-arrow-expand-up
-                                                    </v-icon>
+                                                    <img src="../assets/icons/upload.svg" alt="" width="20px" height="20px">
                                                     Upload
                                                 </v-btn>
                                                 <input
@@ -411,7 +411,7 @@ export default {
                 align: "start",
                 value: "due_date",
                 sortable: false,
-                width: "20%", 
+                
                 fixed: true
             },
             {
@@ -419,7 +419,7 @@ export default {
                 align: "start",
                 value: "original_amount",
                 sortable: false,
-                width: "25%", 
+                
                 fixed: true
             },
             {
@@ -427,7 +427,7 @@ export default {
                 align: "start",
                 value: "open_balance",
                 sortable: false,
-                width: "20%", 
+                
                 fixed: true
             },
             {
@@ -435,7 +435,7 @@ export default {
                 align: "end",
                 value: "payment",
                 sortable: false,
-                width: "10%", 
+                
                 fixed: true
             },
         ],

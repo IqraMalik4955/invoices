@@ -8,10 +8,9 @@
 
             <template v-slot:activator="{ on, attrs }">
                 <v-btn id="filters" v-bind="attrs" v-on="on"
-                  color="#B3CFE0"
-                  class="mx-3"
-                  style="height:38px"
-                    outlined
+                  class="mx-3 text-capitalize black--text"
+                  style="height:38px; border: 1px solid #B4CFE0; font-weight:600"
+                    
                     plain
                     raised
                 >
